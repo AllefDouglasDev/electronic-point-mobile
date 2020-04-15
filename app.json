@@ -1,0 +1,17 @@
+{
+  "name": "ponto",
+  "displayName": "ponto",
+  "expo": {
+    "name": "ponto",
+    "slug": "ponto",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
