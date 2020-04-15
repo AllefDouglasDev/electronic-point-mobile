@@ -10,7 +10,14 @@ const Stack = createStackNavigator()
 export default function Navigation() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Checkin" component={Checkin} />
+      <Stack.Screen
+        name="Checkin"
+        component={Checkin}
+        options={{
+          title: 'Registro de ponto',
+          headerTransparent: true,
+        }}
+      />
       <Stack.Screen name="AdminCheckin" component={AdminCheckin} />
       <Stack.Screen name="Picture" component={Picture} />
     </Stack.Navigator>
