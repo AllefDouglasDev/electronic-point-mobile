@@ -1,22 +1,25 @@
 import styled from 'styled-components/native'
+
 import { Input, Button } from '../../components'
 
-export const Container = styled.View`
+export const Container = styled.SafeAreaView`
   flex: 1;
-  justify-content: center;
-  align-items: center;
   background-color: white;
+  padding: 0 20px;
+  padding-top: 80px;
 `
 
 export const Form = styled.View`
-  width: 100%;
-  padding: 0 20px;
+  margin-top: 20px;
 `;
 
 export const TextInput = styled(Input)`
+  margin: 0 8px;
   margin-bottom: 20px;
+  elevation: 8;
+  color: #4C4C4C;
 `
 
-export const CheckinButton = styled(Button)``
-
-export const AdminCheckinButton = styled(Button)``;
+export const CheckinButton = styled(Button)`
+  margin-bottom: 20px;
+`

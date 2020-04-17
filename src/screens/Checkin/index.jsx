@@ -1,36 +1,58 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { ScrollView } from 'react-native'
 
+import Keyboard from './Keyboard'
 import {
   Container,
   Form,
   TextInput,
   CheckinButton,
-  AdminCheckinButton
 } from './styles'
 
 export default function Checkin({ navigation }) {
+  const [accessCode, setAccessCode] = useState('')
 
   function handleCheckin() {
-    navigation.navigate('Picture')
+    navigation.navigate('AdminCheckin')
   }
 
   function handleAdminCheckin() {
     navigation.navigate('AdminCheckin')
   }
 
+  function handleKeyboard(value) {
+    if (!isNaN(value)) {
+      setAccessCode(`${accessCode}${value}`)
+    } else {
+      handleAction(value)
+    }
+  }
+
+  function handleAction(action) {
+    switch (action) {
+      case 'back':
+        if (accessCode.length > 0) {
+          const newAccessCode = accessCode.substr(0, accessCode.length - 1)
+          setAccessCode(newAccessCode)
+        }
+        break;
+      case 'clean':
+        setAccessCode('')
+        break;
+    }
+  }
+
   return (
     <Container>
-      <Form>
-        <TextInput placeholder='Informe seu ID' />
-        <CheckinButton text='Registrar' onPress={handleCheckin}/>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Form>
+          <TextInput placeholder='Código de Acesso' editable={false} value={accessCode} />
 
-        <AdminCheckinButton
-          text='Registrar como administrador'
-          color='white'
-          textColor='#5fc9f8'
-          onPress={handleAdminCheckin}
-        />
-      </Form>
+          <Keyboard onPress={handleKeyboard}/>
+        </Form>
+      </ScrollView>
+
+      <CheckinButton text='REGISTRAR' color='#354C4C' textColor='#FCE1E3' onPress={handleCheckin}/>
     </Container>
   )
 }

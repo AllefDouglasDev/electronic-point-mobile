@@ -19,7 +19,16 @@ export default function Navigation() {
         }}
       />
       <Stack.Screen name="AdminCheckin" component={AdminCheckin} />
-      <Stack.Screen name="Picture" component={Picture} />
-    </Stack.Navigator>
+      <Stack.Screen
+        name="Picture"
+        component={Picture}
+        options={{
+          title: 'Foto',
+          headerTintColor: 'white',
+          headerTransparent: true
+        }}
+      />
+
+   </Stack.Navigator>
   )
 }
