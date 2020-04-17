@@ -17,7 +17,6 @@ export const TextInput = styled(Input)`
   margin: 0 8px;
   margin-bottom: 20px;
   elevation: 8;
-  color: #4C4C4C;
 `
 
 export const CheckinButton = styled(Button)`

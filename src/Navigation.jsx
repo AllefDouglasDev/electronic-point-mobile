@@ -18,7 +18,16 @@ export default function Navigation() {
           headerTransparent: true,
         }}
       />
-      <Stack.Screen name="AdminCheckin" component={AdminCheckin} />
+
+      <Stack.Screen
+        name="AdminCheckin"
+        component={AdminCheckin}
+        options={{
+          title: 'Autorização',
+          headerTransparent: true,
+        }}
+      />      
+      
       <Stack.Screen
         name="Picture"
         component={Picture}

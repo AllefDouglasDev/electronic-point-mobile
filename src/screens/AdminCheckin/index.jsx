@@ -1,11 +1,50 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { ScrollView, KeyboardAvoidingView } from 'react-native'
 
-import { Container, Title } from './styles'
+import {
+  Container,
+  AccessCodeInput,
+  JustificationInput,
+  CheckinButton,
+} from './styles'
 
-export default function AdminCheckin({ route }) {
+export default function AdminCheckin({ navigation }) {
+  const [accessCode, setAccessCode] = useState('')
+  const [justification, setJustification] = useState('')
+
+  function handleCheckin() {
+    navigation.navigate('Picture')
+  }
+
+  function handleAccessCode(value) {
+    const lastChar = value.substr(value.length -1, value.length)
+    if (!isNaN(lastChar)) {
+      setAccessCode(value)
+    }
+  }
+
   return (
     <Container>
-      <Title>AdminCheckin works!</Title>
+      <ScrollView>
+        <KeyboardAvoidingView behavior='height'>
+          <AccessCodeInput
+            placeholder='Código de Acesso'
+            keyboardType='phone-pad'
+            onChangeText={handleAccessCode}
+            value={accessCode}
+          />
+
+          <JustificationInput
+            placeholder='Justificativa'
+            multiline
+            numberOfLines={8}
+            onChangeText={j => setJustification(j)}
+            value={justification}
+          />
+        </KeyboardAvoidingView>
+      </ScrollView>
+
+      <CheckinButton text='AUTORIZAR' color='#354C4C' textColor='#FCE1E3' onPress={handleCheckin}/>
     </Container>
   )
 }

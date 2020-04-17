@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ScrollView } from 'react-native'
 
-import Keyboard from './Keyboard'
+import { Keyboard } from '../../components'
 import {
   Container,
   Form,
@@ -32,8 +32,7 @@ export default function Checkin({ navigation }) {
     switch (action) {
       case 'back':
         if (accessCode.length > 0) {
-          const newAccessCode = accessCode.substr(0, accessCode.length - 1)
-          setAccessCode(newAccessCode)
+          setAccessCode(prevState => prevState.substr(0, accessCode.length - 1))
         }
         break;
       case 'clean':
