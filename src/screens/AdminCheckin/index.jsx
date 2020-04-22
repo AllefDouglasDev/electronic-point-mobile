@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ScrollView, KeyboardAvoidingView } from 'react-native'
 
+import { getUserData } from '../../storage/UserSettings'
 import {
   Container,
   AccessCodeInput,
@@ -12,8 +13,10 @@ export default function AdminCheckin({ navigation }) {
   const [accessCode, setAccessCode] = useState('')
   const [justification, setJustification] = useState('')
 
-  function handleCheckin() {
-    navigation.navigate('Picture')
+  async function handleCheckin() {
+    const user = await getUserData()
+    console.log(user)
+    // navigation.navigate('Picture')
   }
 
   function handleAccessCode(value) {

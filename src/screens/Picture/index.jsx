@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Camera } from 'expo-camera'
-import { StatusBar } from 'react-native'
+import { StatusBar, Alert, PixelRatio } from 'react-native'
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 
+import { uploadImage } from '../../services/user.service'
+import { base64toBlob } from '../../utils/image'
 import {
   Container,
   Title,
@@ -58,8 +60,28 @@ export default function Picture({ navigation }) {
     }
   }
 
-  function handleConfirm() {
-    
+  async function handleConfirm() {
+    if (photo === null) {
+      return Alert.alert(
+        'Foto não encontrada',
+        'Tire uma foto do seu rosto',
+        [{ text: 'ENTENDI', onPress: () => {} }],
+        { cancelable: false },
+      )
+    }
+
+    try {
+      const imageData = { uri: photo.uri, name: 'user-image', type: 'image/jpg' }
+      await uploadImage(imageData, 2)
+      navigation.navigate('Checkin')
+    } catch (error) {
+      Alert.alert(
+        'Erro',
+        'Erro ao enviar a foto. Por favor, verifique sua conexão com a internet e tente novamente',
+        [{ text: 'ENTENDI', onPress: () => {} }],
+        { cancelable: false },
+      )
+    }
   }
 
   if (hasPermission === null) {
@@ -79,6 +101,7 @@ export default function Picture({ navigation }) {
       <Camera
         ref={ref => camera.current = ref}
         style={{ flex: 1 }}
+        ratio={'5:3'}
         type={type}
         onCameraReady={() => setIsCameraReady(true)}
       >
