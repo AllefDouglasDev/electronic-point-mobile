@@ -127,7 +127,7 @@ export default function Picture({ navigation }) {
         register: user.registro
       })
 
-      if (!mounted.current) {
+      if (mounted.current) {
         sendImage(response.data.register.id)
       }
     } catch (error) {
@@ -136,7 +136,7 @@ export default function Picture({ navigation }) {
 
         Alert.alert(
           'Erro',
-          'Erro ao enviar a foto. Por favor, verifique sua conexão com a internet e tente novamente',
+          'Erro ao registrar. Por favor, verifique sua conexão com a internet e tente novamente',
           [{ text: 'ENTENDI', onPress: () => {} }],
           { cancelable: false },
         )
@@ -187,7 +187,7 @@ export default function Picture({ navigation }) {
             </TakePictureButton>
 
             <ConfirmButton onPress={handleConfirm} disabled={isTakingPicture || loading}>
-              <Ionicons name="ios-send" size={32} color="white" />
+              <Ionicons name="md-send" size={32} color="white" />
             </ConfirmButton>
           </ButtonsContainer>
         </CameraContent>
