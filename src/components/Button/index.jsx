@@ -1,4 +1,5 @@
 import React from 'react'
+import { ActivityIndicator } from 'react-native'
 
 import { Touchable, Text } from './styles'
 
@@ -11,7 +12,10 @@ export default function Button({
 }) {
   return (
     <Touchable color={color} {...props}>
-      <Text color={textColor}>{loading ? 'CARREGANDO...' : text}</Text>
+      {loading 
+        ? <ActivityIndicator size="small" color="#FFF"/>
+        : <Text color={textColor}>{text}</Text>
+      }
     </Touchable>
   )
 }

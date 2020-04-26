@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Camera } from 'expo-camera'
-import { StatusBar, Alert, PixelRatio } from 'react-native'
+import { StatusBar, Alert, ActivityIndicator } from 'react-native'
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 
 import { uploadImage } from '../../services/user.service'
-import { base64toBlob } from '../../utils/image'
 import {
   Container,
   Title,
@@ -17,15 +16,19 @@ import {
 } from './styles'
 
 export default function Picture({ navigation }) {
-  const [hasPermission, setHasPermission] = useState(null)
-  const [type, setType] = useState(Camera.Constants.Type.front)
-  const [isCameraRedy, setIsCameraReady] = useState(false)
-  const [isTakingPicture, setIsTakingPicture] = useState(false)
-  const [photo, setPhoto] = useState(null)
-
+  const mounted = useRef(false)
   const camera = useRef(null)
 
+  const [photo, setPhoto] = useState(null)
+  const [loading, setLoading] = useState(null)
+  const [isCameraReady, setIsCameraReady] = useState(false)
+  const [hasPermission, setHasPermission] = useState(null)
+  const [type, setType] = useState(Camera.Constants.Type.front)
+  const [isTakingPicture, setIsTakingPicture] = useState(false)
+
   useEffect(() => {
+    mounted.current = true;
+
     (async () => {
       const { status } = await Camera.requestPermissionsAsync()
       setHasPermission(status === 'granted')
@@ -34,6 +37,7 @@ export default function Picture({ navigation }) {
     StatusBar.setBarStyle('light-content')
 
     return () => {
+      mounted.current = false
       StatusBar.setBarStyle('dark-content')
     }
   }, [])
@@ -47,16 +51,18 @@ export default function Picture({ navigation }) {
   }
 
   async function handleTakePicture() {
-    if (isCameraRedy && camera.current !== null) {
+    if (isCameraReady && camera.current !== null) {
       setIsTakingPicture(true)
       
       const response = await camera.current.takePictureAsync({
         quality: 0.1,
         base64: true
       })
-      
-      setIsTakingPicture(false)
-      setPhoto(response)
+
+      if (mounted.current) {
+        setIsTakingPicture(false)
+        setPhoto(response)
+      }
     }
   }
 
@@ -70,22 +76,43 @@ export default function Picture({ navigation }) {
       )
     }
 
+    setLoading(true)
+    
     try {
       const imageData = { uri: photo.uri, name: 'user-image', type: 'image/jpg' }
       await uploadImage(imageData, 2)
-      navigation.navigate('Checkin')
-    } catch (error) {
+
       Alert.alert(
-        'Erro',
-        'Erro ao enviar a foto. Por favor, verifique sua conexão com a internet e tente novamente',
-        [{ text: 'ENTENDI', onPress: () => {} }],
+        'Sucesso',
+        'Registro realizado com sucesso',
+        [{ 
+          text: 'CONFIRMAR',
+          onPress: () =>
+            navigation.navigate('Checkin', { resetAccessCode: true })
+        }],
         { cancelable: false },
       )
+      
+    } catch (error) {
+      if (mounted.current) {
+        Alert.alert(
+          'Erro',
+          'Erro ao enviar a foto. Por favor, verifique sua conexão com a internet e tente novamente',
+          [{ text: 'ENTENDI', onPress: () => {} }],
+          { cancelable: false },
+        )
+      }
     }
+    
+    setLoading(false)
   }
 
   if (hasPermission === null) {
-    return <Container />
+    return (
+      <Container>
+        <ActivityIndicator size='large' color='#354C4C'/>
+      </Container>    
+    )
   }
 
   if (hasPermission === false) {
@@ -111,15 +138,18 @@ export default function Picture({ navigation }) {
           )}
 
           <ButtonsContainer>
-            <FlipButton onPress={handleFlip}>
+            <FlipButton onPress={handleFlip} disabled={isTakingPicture || loading}>
               <Ionicons name="md-reverse-camera" size={32} color="white" />
             </FlipButton>
 
-            <TakePictureButton onPress={handleTakePicture} disabled={isTakingPicture}>
-              <MaterialIcons name="camera" size={64} color="white" />
+            <TakePictureButton onPress={handleTakePicture} disabled={isTakingPicture || loading}>
+              {loading 
+                ? <ActivityIndicator size='large' color='#FFF'/>
+                : <MaterialIcons name="camera" size={64} color="white" />
+              }
             </TakePictureButton>
 
-            <ConfirmButton onPress={handleConfirm} disabled={isTakingPicture}>
+            <ConfirmButton onPress={handleConfirm} disabled={isTakingPicture || loading}>
               <Ionicons name="ios-send" size={32} color="white" />
             </ConfirmButton>
           </ButtonsContainer>

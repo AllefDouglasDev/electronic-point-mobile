@@ -19,6 +19,4 @@ export const TextInput = styled(Input)`
   elevation: 8;
 `
 
-export const CheckinButton = styled(Button)`
-  margin-bottom: 20px;
-`
+export const CheckinButton = styled(Button)``

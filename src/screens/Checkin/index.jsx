@@ -11,7 +11,7 @@ import {
   CheckinButton,
 } from './styles'
 
-export default function Checkin({ navigation }) {
+export default function Checkin({ navigation, route }) {
   const mounted = useRef(false)
   const [loading, setLoading] = useState(false)
   const [accessCode, setAccessCode] = useState('')
@@ -23,6 +23,12 @@ export default function Checkin({ navigation }) {
 
     return () => mounted.current = false
   }, [])
+
+  useEffect(() => {
+    if (route.params && route.params.resetAccessCode) {
+      setAccessCode('')
+    }
+  }, [route.params])
 
   async function checkin() {
     setLoading(true)
@@ -64,7 +70,6 @@ export default function Checkin({ navigation }) {
         { cancelable: false },
       )
     }
-
   }
 
   function handleCheckin() {
@@ -102,14 +107,16 @@ export default function Checkin({ navigation }) {
   }
 
   return (
-    <Container>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Form>
-          <TextInput placeholder='Código de Acesso' editable={false} value={accessCode} />
+    <>
+      <Container>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Form>
+            <TextInput placeholder='Código de Acesso' editable={false} value={accessCode} />
 
-          <Keyboard onPress={handleKeyboard}/>
-        </Form>
-      </ScrollView>
+            <Keyboard onPress={handleKeyboard}/>
+          </Form>
+        </ScrollView>
+      </Container>
 
       <CheckinButton
         text='REGISTRAR'
@@ -119,6 +126,6 @@ export default function Checkin({ navigation }) {
         loading={loading}
         disabled={loading}
       />
-    </Container>
+    </>
   )
 }

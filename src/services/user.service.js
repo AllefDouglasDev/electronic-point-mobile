@@ -1,7 +1,11 @@
-import api, { baseURL } from './api'
+import api from './api'
 
 export function getUser(accessCode) {
   return api.post('/user', { codigo_acesso: accessCode })
+}
+
+export function authorization(accessCode) {
+  return api.post('/check', { codigo_acesso: accessCode })
 }
 
 export function uploadImage(imageData, userId) {
@@ -16,13 +20,4 @@ export function uploadImage(imageData, userId) {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
   })
-  // return api({
-  //   url: `${baseURL}/image/${userId}`,
-  //   method: 'POST',
-  //   data: formData,
-  //   headers: {
-  //     Accept: 'application/json',
-  //     'Content-Type': 'multipart/form-data',
-  //   },
-  // })
 }

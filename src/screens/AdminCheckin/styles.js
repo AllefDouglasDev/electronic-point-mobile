@@ -22,6 +22,4 @@ export const JustificationInput = styled.TextInput`
   margin: 20px;
 `
 
-export const CheckinButton = styled(Button)`
-  margin: 20px;
-`
+export const AuthorizationButton = styled(Button)``

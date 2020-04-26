@@ -21,7 +21,7 @@ export const ButtonsContainer = styled.View`
   padding: 20px;
   justify-content: center;
   align-items: center;
-`;
+`
 
 export const FlipButton = styled.TouchableOpacity`
   flex: 1;
