@@ -8,9 +8,9 @@ import {
   DigitNumber,
 } from './styles'
 
-export default function Keyboard({ onPress }) {
+export default function Keyboard({ onPress, ...props }) {
   return (
-    <Container>
+    <Container {...props}>
       <DigitButtonRow>
         <DigitButton onPress={() => onPress(1)}>
           <DigitNumber>1</DigitNumber>

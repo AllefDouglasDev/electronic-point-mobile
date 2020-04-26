@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { ScrollView, Alert } from 'react-native'
 
-import { Keyboard } from '../../components'
+// import { Keyboard } from '../../components'
 import { getUser } from '../../services/user.service'
 import { saveUser, clear } from '../../storage/UserSettings'
 import {
@@ -9,6 +9,7 @@ import {
   Form,
   TextInput,
   CheckinButton,
+  Keyboard,
 } from './styles'
 
 export default function Checkin({ navigation, route }) {
@@ -111,7 +112,7 @@ export default function Checkin({ navigation, route }) {
       <Container>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Form>
-            <TextInput placeholder='Código de Acesso' editable={false} value={accessCode} />
+            <TextInput secureTextEntry placeholder='Código de Acesso' editable={false} value={accessCode} />
 
             <Keyboard onPress={handleKeyboard}/>
           </Form>

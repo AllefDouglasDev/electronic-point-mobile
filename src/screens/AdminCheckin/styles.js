@@ -5,12 +5,11 @@ import { Input, Button } from '../../components'
 export const Container = styled.View`
   flex: 1;
   background-color: white;
-  padding-top: 80px;
 `
 
 export const AccessCodeInput = styled(Input)`
   elevation: 8;
-  margin: 20px;
+  margin: 40px 20px;
 `
 
 export const JustificationInput = styled.TextInput`

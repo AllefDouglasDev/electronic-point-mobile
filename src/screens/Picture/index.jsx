@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Camera } from 'expo-camera'
-import { StatusBar, Alert, ActivityIndicator } from 'react-native'
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'
+import { StatusBar, Alert, ActivityIndicator } from 'react-native'
 
 import * as UserSettings from '../../storage/UserSettings'
 import { uploadImage, register } from '../../services/user.service'
@@ -18,6 +18,8 @@ import {
 } from './styles'
 
 export default function Picture({ navigation }) {
+  const DESIRED_RATIO = '16:9'
+  
   const mounted = useRef(false)
   const camera = useRef(null)
 
@@ -27,6 +29,8 @@ export default function Picture({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null)
   const [type, setType] = useState(Camera.Constants.Type.front)
   const [isTakingPicture, setIsTakingPicture] = useState(false)
+  const [ratio, setRatio] = useState(DESIRED_RATIO)
+  
 
   useEffect(() => {
     mounted.current = true;
@@ -43,6 +47,23 @@ export default function Picture({ navigation }) {
       StatusBar.setBarStyle('dark-content')
     }
   }, [])
+
+  useEffect(() => {
+    (async () => {
+      if (isCameraReady) {
+        try {
+          const ratios = await camera.current.getSupportedRatiosAsync()
+          const correctRatio = ratios.find((ratio) => ratio === DESIRED_RATIO) || ratios[ratios.length - 1]
+          console.log('supportedRatio', ratios)
+          console.log('correctRatio', correctRatio)
+          setRatio(correctRatio)
+
+        } catch (error) {
+          console.log('supportedRatio - ERROR -', error)
+        }
+      }
+    })()
+  }, [isCameraReady])
 
   async function sendImage(registerId) {
     if (!loading) setLoading(true)
@@ -163,9 +184,9 @@ export default function Picture({ navigation }) {
   return (
     <Container>
       <Camera
-        ref={ref => camera.current = ref}
+        ref={camera}
         style={{ flex: 1 }}
-        ratio={'5:3'}
+        ratio={ratio}
         type={type}
         onCameraReady={() => setIsCameraReady(true)}
       >

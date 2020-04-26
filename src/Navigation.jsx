@@ -15,7 +15,7 @@ export default function Navigation() {
         component={Checkin}
         options={{
           title: 'Registro de ponto',
-          headerTransparent: true,
+          // headerTransparent: true,
         }}
       />
 
@@ -24,7 +24,7 @@ export default function Navigation() {
         component={AdminCheckin}
         options={{
           title: 'Autorização',
-          headerTransparent: true,
+          // headerTransparent: true,
         }}
       />      
       

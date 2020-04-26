@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Container, TextInput } from './styles'
+import { TextInput } from './styles'
 
 export default function Input({ ...props }) {
   return (

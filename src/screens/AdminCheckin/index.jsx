@@ -95,9 +95,10 @@ export default function AdminCheckin({ navigation }) {
         <KeyboardAvoidingView behavior='height'>
           <AccessCodeInput
             placeholder='Código de Acesso'
-            keyboardType='phone-pad'
+            keyboardType='number-pad'
             onChangeText={handleAccessCode}
             value={accessCode}
+            secureTextEntry
           />
 
           <JustificationInput
