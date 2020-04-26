@@ -3,7 +3,8 @@ import { Camera } from 'expo-camera'
 import { StatusBar, Alert, ActivityIndicator } from 'react-native'
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 
-import { uploadImage } from '../../services/user.service'
+import * as UserSettings from '../../storage/UserSettings'
+import { uploadImage, register } from '../../services/user.service'
 import {
   Container,
   Title,
@@ -13,6 +14,7 @@ import {
   FlipButton,
   TakePictureButton,
   ConfirmButton,
+  CenterItemsContainer,
 } from './styles'
 
 export default function Picture({ navigation }) {
@@ -41,6 +43,41 @@ export default function Picture({ navigation }) {
       StatusBar.setBarStyle('dark-content')
     }
   }, [])
+
+  async function sendImage(registerId) {
+    if (!loading) setLoading(true)
+
+    try {
+      const imageData = { uri: photo.uri, name: 'user-image', type: 'image/jpg' }
+      await uploadImage(imageData, registerId)
+
+      if (mounted.current) {
+        await UserSettings.clear()
+  
+        Alert.alert(
+          'Sucesso',
+          'Registro realizado com sucesso',
+          [{
+            text: 'CONFIRMAR',
+            onPress: () =>
+              navigation.navigate('Checkin', { resetAccessCode: true })
+          }],
+          { cancelable: false },
+        )
+      }
+    } catch (error) {
+      if (mounted.current) {
+        Alert.alert(
+          'Erro',
+          'Erro ao enviar a foto. Por favor, verifique sua conexão com a internet e tente novamente',
+          [{ text: 'ENTENDI', onPress: () => {} }],
+          { cancelable: false },
+        )
+      }
+
+      setLoading(false)
+    }
+  } 
 
   function handleFlip() {
     setType(
@@ -79,22 +116,24 @@ export default function Picture({ navigation }) {
     setLoading(true)
     
     try {
-      const imageData = { uri: photo.uri, name: 'user-image', type: 'image/jpg' }
-      await uploadImage(imageData, 2)
+      const user = await UserSettings.getUserData()
+      const justification = await UserSettings.getJustification()
+      const adminName = await UserSettings.getAdminName()
 
-      Alert.alert(
-        'Sucesso',
-        'Registro realizado com sucesso',
-        [{ 
-          text: 'CONFIRMAR',
-          onPress: () =>
-            navigation.navigate('Checkin', { resetAccessCode: true })
-        }],
-        { cancelable: false },
-      )
-      
+      const response = await register({
+        userId: user.id,
+        adminName,
+        justification,
+        register: user.registro
+      })
+
+      if (!mounted.current) {
+        sendImage(response.data.register.id)
+      }
     } catch (error) {
       if (mounted.current) {
+        setLoading(false)
+
         Alert.alert(
           'Erro',
           'Erro ao enviar a foto. Por favor, verifique sua conexão com a internet e tente novamente',
@@ -103,23 +142,21 @@ export default function Picture({ navigation }) {
         )
       }
     }
-    
-    setLoading(false)
   }
 
   if (hasPermission === null) {
     return (
-      <Container>
+      <CenterItemsContainer>
         <ActivityIndicator size='large' color='#354C4C'/>
-      </Container>    
+      </CenterItemsContainer>    
     )
   }
 
   if (hasPermission === false) {
     return (
-      <Container>
+      <CenterItemsContainer>
         <Title>Habilite a permissão de câmera</Title>
-      </Container>
+      </CenterItemsContainer>
     )
   }
 

@@ -5,6 +5,12 @@ export const Container = styled.View`
   flex: 1;
 `
 
+export const CenterItemsContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`
+
 export const Title = styled.Text``
 
 export const CameraContent = styled.View`
