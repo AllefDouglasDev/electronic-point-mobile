@@ -4,6 +4,7 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import { StatusBar, Alert, ActivityIndicator } from 'react-native'
 
 import * as UserSettings from '../../storage/UserSettings'
+import { getFormattedDate } from '../../utils/date'
 import { uploadImage, register } from '../../services/user.service'
 import {
   Container,
@@ -64,7 +65,7 @@ export default function Picture({ navigation }) {
     })()
   }, [isCameraReady])
 
-  async function sendImage(registerId) {
+  async function sendImage(registerId, date, hour) {
     if (!loading) setLoading(true)
 
     try {
@@ -73,10 +74,14 @@ export default function Picture({ navigation }) {
 
       if (mounted.current) {
         await UserSettings.clear()
+
+        const formattedDate = getFormattedDate(date)
+        const alertText = 
+          `Registro realizado com sucesso\n\nData: ${formattedDate}\nHora: ${hour}`
   
         Alert.alert(
           'Sucesso',
-          'Registro realizado com sucesso',
+          alertText,
           [{
             text: 'CONFIRMAR',
             onPress: () =>
@@ -147,7 +152,8 @@ export default function Picture({ navigation }) {
       })
 
       if (mounted.current) {
-        sendImage(response.data.register.id)
+        const { id, data, hora } = response.data.register
+        sendImage(id, data, hora)
       }
     } catch (error) {
       if (mounted.current) {
@@ -192,7 +198,7 @@ export default function Picture({ navigation }) {
           {photo !== null && (
             <ResultContainer>
               <Image source={{ uri: photo.uri }} />
-              <UserName>{user.nome}</UserName>
+              <UserName>{user ? user.nome : ''}</UserName>
             </ResultContainer>
           )}
 
