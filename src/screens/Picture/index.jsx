@@ -41,7 +41,6 @@ export default function Picture({ navigation }) {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync()
       const userData = await UserSettings.getUserData()
-      console.log(userData)
       setUser(userData)
       setHasPermission(status === 'granted')
     })()
