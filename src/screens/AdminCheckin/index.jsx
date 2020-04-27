@@ -72,7 +72,6 @@ export default function AdminCheckin({ navigation }) {
         navigation.navigate('Picture')
       }
     } catch (error) {
-      console.log(error)
       if (mounted.current)  {
         handleApiError(error)
         setLoading(false)
