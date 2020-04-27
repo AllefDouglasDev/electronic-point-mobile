@@ -23,6 +23,7 @@ export const DigitButton = styled.TouchableOpacity`
 `
 
 export const DigitNumber = styled.Text`
-  font-size: 18px;
+  font-size: 25px;
   color: #646464;
+  font-weight: bold;
 `

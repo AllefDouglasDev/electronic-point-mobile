@@ -10,4 +10,5 @@ export const Touchable = styled.TouchableOpacity`
 
 export const Text = styled.Text`
   color: ${({ color }) => color};
+  font-weight: bold;
 `

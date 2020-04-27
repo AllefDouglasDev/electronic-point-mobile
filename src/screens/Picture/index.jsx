@@ -9,12 +9,14 @@ import {
   Container,
   Title,
   CameraContent,
-  Image,
   ButtonsContainer,
   FlipButton,
   TakePictureButton,
   ConfirmButton,
   CenterItemsContainer,
+  ResultContainer,
+  Image,
+  UserName,
 } from './styles'
 
 export default function Picture({ navigation }) {
@@ -23,6 +25,7 @@ export default function Picture({ navigation }) {
   const mounted = useRef(false)
   const camera = useRef(null)
 
+  const [user, setUser] = useState({})
   const [photo, setPhoto] = useState(null)
   const [loading, setLoading] = useState(null)
   const [isCameraReady, setIsCameraReady] = useState(false)
@@ -30,13 +33,15 @@ export default function Picture({ navigation }) {
   const [type, setType] = useState(Camera.Constants.Type.front)
   const [isTakingPicture, setIsTakingPicture] = useState(false)
   const [ratio, setRatio] = useState(DESIRED_RATIO)
-  
 
   useEffect(() => {
     mounted.current = true;
 
     (async () => {
       const { status } = await Camera.requestPermissionsAsync()
+      const userData = await UserSettings.getUserData()
+      console.log(userData)
+      setUser(userData)
       setHasPermission(status === 'granted')
     })()
 
@@ -51,16 +56,10 @@ export default function Picture({ navigation }) {
   useEffect(() => {
     (async () => {
       if (isCameraReady) {
-        try {
-          const ratios = await camera.current.getSupportedRatiosAsync()
-          const correctRatio = ratios.find((ratio) => ratio === DESIRED_RATIO) || ratios[ratios.length - 1]
-          console.log('supportedRatio', ratios)
-          console.log('correctRatio', correctRatio)
-          setRatio(correctRatio)
+        const ratios = await camera.current.getSupportedRatiosAsync()
+        const correctRatio = ratios.find((ratio) => ratio === DESIRED_RATIO) || ratios[ratios.length - 1]
 
-        } catch (error) {
-          console.log('supportedRatio - ERROR -', error)
-        }
+        setRatio(correctRatio)
       }
     })()
   }, [isCameraReady])
@@ -137,7 +136,6 @@ export default function Picture({ navigation }) {
     setLoading(true)
     
     try {
-      const user = await UserSettings.getUserData()
       const justification = await UserSettings.getJustification()
       const adminName = await UserSettings.getAdminName()
 
@@ -192,7 +190,10 @@ export default function Picture({ navigation }) {
       >
         <CameraContent>
           {photo !== null && (
-            <Image source={{ uri: photo.uri }} />
+            <ResultContainer>
+              <Image source={{ uri: photo.uri }} />
+              <UserName>{user.name}</UserName>
+            </ResultContainer>
           )}
 
           <ButtonsContainer>

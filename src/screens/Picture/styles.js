@@ -47,10 +47,25 @@ export const ConfirmButton = styled.TouchableOpacity`
   align-items: center;
 `
 
-export const Image = styled.Image`
+export const ResultContainer = styled.View`
   position: absolute;
   width: 100px;
-  height: 160px;
+  height: 180px;
   top: 60px;
   left: ${Math.round(Dimensions.get('window').width) - 120}px;
+`
+
+export const Image = styled.Image`
+  width: 100px;
+  height: 160px;
+`
+
+export const UserName = styled.Text`
+  color: #fff;
+  margin-top: 5px;
+  text-align: center;
+  max-width: 100px;
+  font-weight: bold;
+  font-size: 18px;
+  background-color: rgba(0, 0, 0, .4)
 `
