@@ -192,7 +192,7 @@ export default function Picture({ navigation }) {
           {photo !== null && (
             <ResultContainer>
               <Image source={{ uri: photo.uri }} />
-              <UserName>{user.name}</UserName>
+              <UserName>{user.nome}</UserName>
             </ResultContainer>
           )}
 
