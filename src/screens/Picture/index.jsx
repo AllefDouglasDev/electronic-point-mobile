@@ -46,6 +46,7 @@ export default function Picture({ navigation }) {
     })()
 
     StatusBar.setBarStyle('light-content')
+    StatusBar.setBackgroundColor('rgba(0,0,0,.0)')
 
     return () => {
       mounted.current = false

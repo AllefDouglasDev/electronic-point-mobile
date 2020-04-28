@@ -1,12 +1,18 @@
 {
   "name": "ponto",
-  "displayName": "ponto",
+  "displayName": "Ponto",
   "expo": {
     "name": "ponto",
     "slug": "ponto",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
+    "androidStatusBar": {
+      "hidden": false,
+      "translucent": true,
+      "barStyle": "light-content",
+      "backgroundColor": "#354C4C" 
+    },
     "splash": {
       "image": "./src/assets/splash.png",
       "backgroundColor": "#354C4C"
