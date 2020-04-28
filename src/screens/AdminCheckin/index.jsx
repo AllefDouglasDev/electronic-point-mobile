@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { ScrollView, KeyboardAvoidingView, Alert, StatusBar } from 'react-native'
+import { ScrollView, KeyboardAvoidingView, Alert, StatusBar, Keyboard } from 'react-native'
 
 import { authorization } from '../../services/user.service'
 import * as UserSettings from '../../storage/UserSettings'
@@ -8,6 +8,8 @@ import {
   AccessCodeInput,
   JustificationInput,
   AuthorizationButton,
+  AccessCodeLabel,
+  JustificationLabel,
 } from './styles'
 
 export default function AdminCheckin({ navigation }) {
@@ -45,6 +47,8 @@ export default function AdminCheckin({ navigation }) {
   }
 
   async function handleAuthorization() {
+    Keyboard.dismiss()
+
     if (accessCode.length <= 0) {
       return Alert.alert(
         'Erro',
@@ -94,6 +98,7 @@ export default function AdminCheckin({ navigation }) {
     <Container>
       <ScrollView>
         <KeyboardAvoidingView behavior='height'>
+          <AccessCodeLabel>Código de Acesso</AccessCodeLabel>
           <AccessCodeInput
             placeholder='Código de Acesso'
             keyboardType='number-pad'
@@ -102,6 +107,7 @@ export default function AdminCheckin({ navigation }) {
             secureTextEntry
           />
 
+          <JustificationLabel>Justificativa</JustificationLabel>
           <JustificationInput
             placeholder='Justificativa'
             multiline
