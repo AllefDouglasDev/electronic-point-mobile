@@ -49,7 +49,6 @@ export default function Picture({ navigation }) {
 
     return () => {
       mounted.current = false
-      StatusBar.setBarStyle('dark-content')
     }
   }, [])
 

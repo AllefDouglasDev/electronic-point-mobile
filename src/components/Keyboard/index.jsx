@@ -55,7 +55,7 @@ export default function Keyboard({ onPress, ...props }) {
 
       <DigitButtonRow>
         <DigitButton onPress={() => onPress('clean')}>
-          <AntDesign name="closecircle" size={25} color="#646464" />
+          <AntDesign name="closecircle" size={25} color="#354C4C" />
         </DigitButton>
 
         <DigitButton onPress={() => onPress(0)}>
@@ -63,7 +63,7 @@ export default function Keyboard({ onPress, ...props }) {
         </DigitButton>
 
         <DigitButton onPress={() => onPress('back')}>
-          <Ionicons name="ios-backspace" size={28} color="#646464" />
+          <Ionicons name="ios-backspace" size={28} color="#354C4C" />
         </DigitButton>
       </DigitButtonRow>
     </Container>

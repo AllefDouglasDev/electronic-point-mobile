@@ -20,5 +20,5 @@ export const TextInput = styled(Input)`
 export const CheckinButton = styled(Button)``
 
 export const Keyboard = styled(KeyboardC)`
-  margin: 40px 0;
+  margin: 20px 0;
 `

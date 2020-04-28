@@ -5,6 +5,12 @@
     "name": "ponto",
     "slug": "ponto",
     "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./src/assets/icon.png",
+    "splash": {
+      "image": "./src/assets/splash.png",
+      "backgroundColor": "#354C4C"
+    },
     "platforms": [
       "ios",
       "android",

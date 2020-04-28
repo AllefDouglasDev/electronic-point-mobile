@@ -15,7 +15,10 @@ export default function Navigation() {
         component={Checkin}
         options={{
           title: 'Registro de ponto',
-          // headerTransparent: true,
+          headerStyle: {
+            backgroundColor: '#354C4C',
+          },
+          headerTintColor: '#fff',
         }}
       />
 
@@ -24,7 +27,10 @@ export default function Navigation() {
         component={AdminCheckin}
         options={{
           title: 'Autorização',
-          // headerTransparent: true,
+          headerStyle: {
+            backgroundColor: '#354C4C',
+          },
+          headerTintColor: '#fff',
         }}
       />      
       
@@ -34,7 +40,7 @@ export default function Navigation() {
         options={{
           title: 'Foto',
           headerTintColor: 'white',
-          headerTransparent: true
+          headerTransparent: true,
         }}
       />
 

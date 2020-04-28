@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { ScrollView, Alert } from 'react-native'
+import { ScrollView, Alert, StatusBar } from 'react-native'
 
-// import { Keyboard } from '../../components'
 import { getUser } from '../../services/user.service'
 import { saveUser, clear } from '../../storage/UserSettings'
 import {
@@ -19,9 +18,9 @@ export default function Checkin({ navigation, route }) {
 
   useEffect(() => {
     mounted.current = true
-
+    StatusBar.setBarStyle('light-content')
     clear()
-
+    
     return () => mounted.current = false
   }, [])
 
@@ -122,7 +121,6 @@ export default function Checkin({ navigation, route }) {
       <CheckinButton
         text='REGISTRAR'
         color='#354C4C'
-        textColor='#FCE1E3'
         onPress={handleCheckin}
         loading={loading}
         disabled={loading}

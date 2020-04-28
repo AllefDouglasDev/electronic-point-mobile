@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { ScrollView, KeyboardAvoidingView, Alert } from 'react-native'
+import { ScrollView, KeyboardAvoidingView, Alert, StatusBar } from 'react-native'
 
 import { authorization } from '../../services/user.service'
 import * as UserSettings from '../../storage/UserSettings'
@@ -18,6 +18,8 @@ export default function AdminCheckin({ navigation }) {
 
   useEffect(() => {
     mounted.current = true
+
+    StatusBar.setBarStyle('light-content')
 
     return () => mounted.current = false
   }, [])
@@ -113,7 +115,6 @@ export default function AdminCheckin({ navigation }) {
       <AuthorizationButton
         text='AUTORIZAR'
         color='#354C4C'
-        textColor='#FCE1E3'
         onPress={handleAuthorization}
         disabled={loading}
         loading={loading}
